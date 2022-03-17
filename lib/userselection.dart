@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'adduser.dart';
@@ -11,8 +13,10 @@ class usersel extends StatefulWidget {
 }
 
 class _userselState extends State<usersel> {
+
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
@@ -103,6 +107,110 @@ class _userselState extends State<usersel> {
           elevation: 5,
           child: Column(
             children: [
+              Center(
+                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+
+
+                  stream: FirebaseFirestore.instance
+                      .collection('Customer')
+
+
+
+                      .snapshots(),
+                  builder: (_, snapshot) {
+                    if (snapshot.hasError)
+                      return Text('Error = ${snapshot.error}');
+
+                    if (snapshot.hasData) {
+                      final docs = snapshot.data!.docs;
+                      return SingleChildScrollView(
+                        child: Container(
+                          height: 10,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: docs.length,
+                            itemBuilder: (_, i) {
+                              final data = docs[i].data();
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 3),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: Container(
+                                        decoration: new BoxDecoration(
+                                          image: DecorationImage(
+
+                                              fit: BoxFit.fitHeight,
+                                              alignment: Alignment.centerLeft,
+                                              image: NetworkImage(
+
+                                                  "${data['url']}")
+                                          ),
+                                          color: Colors.grey,
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                gradientStart,
+                                                gradientEnd
+                                              ],
+                                              begin: FractionalOffset(0.5, 0),
+                                              end: FractionalOffset(0, 0.5),
+                                              stops: [0.0, 1.0],
+                                              tileMode: TileMode.clamp),
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(10),
+                                              topLeft: Radius.circular(20),
+                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(10)),
+                                        ),
+                                        height: 150,
+                                        width: double.infinity,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                            children: [
+
+                                              Text(data['size']),
+                                              Text(data['category']),
+                                              Text("points ${data['points']}"),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    // Container(
+                                    //   height: 150,
+                                    //   decoration: new BoxDecoration(),
+                                    //   child: ListTile(
+                                    //     minVerticalPadding: 20,
+                                    //     horizontalTitleGap: 30.00,
+                                    //     selectedColor: Colors.red,
+                                    //     tileColor: Colors.grey,
+                                    //     leading: Text(data['brand']),
+                                    //     title: Text(
+                                    //         "${data['points']}and${data['tag']}"),
+                                    //     subtitle: Text(data['size']),
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }
+
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
               Container(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5, top: 15),

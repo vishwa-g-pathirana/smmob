@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pubz/User_mng.dart';
 import 'package:pubz/adduser.dart';
+import 'package:pubz/login.dart';
 
 import 'cons/constants.dart';
 import 'model/user_model.dart';
@@ -119,19 +120,7 @@ class _menubarState extends State<menubar> {
             onTap: () {},
           ),
 
-          ListTile(
-            leading: Icon(
-              Icons.perm_contact_cal_sharp,
-              color: HPrimarycolor,
-            ),
-            title: Text(
-              'Profile',
-              style: TextStyle(
-                color: HPrimarycolor,
-              ),
-            ),
-            onTap: () {},
-          ),
+
           Divider(),
           ListTile(
             leading: Icon(
@@ -158,7 +147,14 @@ class _menubarState extends State<menubar> {
                 color: HPrimarycolor,
               ),
             ),
-            onTap: () {},
+            onTap: () {
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const login()),
+              );
+
+            },
           ),
         ],
       ),

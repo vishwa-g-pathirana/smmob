@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pubz/ResPw/newPw.dart';
@@ -28,7 +29,7 @@ class _resetpasswordState extends State<resetpassword> {
   int rngw = 0;
   TextEditingController textEditingController1 = TextEditingController();
   final emailController = TextEditingController();
-
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final pinController = TextEditingController();
 
   StreamController<ErrorAnimationType>? errorController;
@@ -115,7 +116,7 @@ class _resetpasswordState extends State<resetpassword> {
                     suffixIcon: IconButton(
                       icon: Icon(Icons.arrow_forward_outlined),
                       onPressed: () {
-                        send();
+                        resetpassword();
 
                         setState(() {
 
@@ -267,5 +268,8 @@ class _resetpasswordState extends State<resetpassword> {
 //
 //     }
 //   }
-
+  @override
+  Future<void> resetPassword(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 }

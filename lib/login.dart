@@ -364,7 +364,7 @@ class _loginState extends State<login> {
                                               color: HPrimarycolor)))),
                               onPressed: () {
                                 Signin(myController.text, myController2.text);
-                                getfbdat();
+
                               }),
                         ),
                       ),
@@ -446,7 +446,7 @@ class _loginState extends State<login> {
       } else {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const test()),
+          MaterialPageRoute(builder: (context) => const user_mng()),
         );
       }
     }
